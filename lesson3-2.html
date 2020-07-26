@@ -1,37 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<title>lesson3-2</title>
+	</head>
 
-<head>
-    <meta charset="UTF-8">
-    <title>lesson3-2</title>
-</head>
+	<body>
+		<script>
+			"use strict";
 
-<body>
-    <script>
-        'use strict';
-
-        /**
+			/**
         корзина: [[товар],[товар],[товар]]
         товар: [название, кол-во, цена]     */
 
-        const bascet = [
-            ['яблоко', 4, 2],
-            ['груша', 10, 1],
-            ['апельсин', 6, 2],
-        ];
-       
-        bascetPrice();
-        
-        function bascetPrice() {
-            let bascetPrice = 0;
-            for (let i = 0; i <= bascet.length - 1; i++) {
-                bascetPrice += (bascet[i][1]*bascet[i][2]);
-            }
-            return bascetPrice;
-        };
+			const basket = [
+				["яблоко", 4, 2],
+				["груша", 10, 1],
+				["апельсин", 6, 2],
+			];
 
-        console.log(`В корзине ${bascet.length} товара(-ов) на сумму ${bascetPrice()} рублей.`);
-    </script>
-</body>
+			basketPrice();
 
+			function basketPrice() {
+				let basketPrice = 0;
+				for (let i = 0; i <= basket.length - 1; i++) {
+					basketPrice += basket[i][1] * basket[i][2];
+				}
+				return basketPrice;
+			}
+
+			console.log(`В корзине ${basket.length} товара(-ов) на сумму ${basketPrice()} рублей.`);
+		</script>
+	</body>
 </html>

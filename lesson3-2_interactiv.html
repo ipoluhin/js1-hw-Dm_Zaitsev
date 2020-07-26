@@ -16,22 +16,22 @@
          *         !!!Не производится проверок на правильность ввода!!!     
         */
 
-        const bascet = [];
+        const basket = [];
 
         /** 
          * Блок подтверждения начала работы с корзиной. Если отказ, то перебрасывает на блок if, завершая работу с корзиной.
         */
         while (confirm(`Начать работу с корзиной?`) === true) {
-            addToBascet();
-            console.log(`В корзине ${bascet.length} единица(-ы) товара(-ов) на сумму ${bascetPrice()} рублей.`);
+            addTobasket();
+            console.log(`В корзине ${basket.length} единица(-ы) товара(-ов) на сумму ${basketPrice()} рублей.`);
         }
 
         /** 
          * В зависимости от состава корзины либо выводит результат либо завершает работу с козиной.
         */
-        if (bascet.length != 0) {
-            alert(`По итогу: в корзине ${bascet.length} единица(-ы) товара(-ов) на сумму ${bascetPrice()} рублей. До свидания.`);
-            console.log(`В корзине ${bascet.length} единица(-ы) товара(-ов) на сумму ${bascetPrice()} рублей.`);
+        if (basket.length != 0) {
+            alert(`По итогу: в корзине ${basket.length} единица(-ы) товара(-ов) на сумму ${basketPrice()} рублей. До свидания.`);
+            console.log(`В корзине ${basket.length} единица(-ы) товара(-ов) на сумму ${basketPrice()} рублей.`);
         } else {
             alert(`Ваша корзина пуста. До свидания.`);
         };
@@ -40,7 +40,7 @@
          * Функция наполняет корзину товаром. Данные по товару запрашиваются от пользователя         
          * @returns {boolean} Возвращает состояние подтверждения/отмены о дальнейшей работе с корзиной
          */
-        function addToBascet() {
+        function addTobasket() {
             if (confirm(`Добавить товар в корзину?`)) {
                 let goodName = prompt('Введите название продукта');
                 let goodVol = +prompt('Введите количество продукта');
@@ -48,7 +48,7 @@
 
                 const goodDatas = [];
                 goodDatas.push(goodName, goodVol, goodPrice);
-                bascet.push(goodDatas);
+                basket.push(goodDatas);
                 return true;
             } else {
                 return false;
@@ -59,13 +59,13 @@
          * Функция считает стоимость корзины         
          * @returns {number} Возращается стоимость корзины
          */
-        function bascetPrice() {
-            let bascetPrice = 0;
+        function basketPrice() {
+            let basketPrice = 0;
 
-            for (let i = 0; i <= bascet.length - 1; i++) {
-                bascetPrice += (bascet[i][1] * bascet[i][2]);
+            for (let i = 0; i <= basket.length - 1; i++) {
+                basketPrice += (basket[i][1] * basket[i][2]);
             }
-            return bascetPrice;
+            return basketPrice;
         }
     </script>
 </body>
