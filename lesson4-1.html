@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<title>lesson4-1</title>
+	</head>
+	<body>
+		<script>
+			"use strict";
+			let num = +prompt(`Введите число в периоде от 0 до 999 включительно.`);
+			console.log(getDigitsOfNumber(num));
+			/**
+			 * функция формирует объект на основе введенного числа из [0, 999]
+			 * @param num - число, введенное пользователем
+			 * @returns {Object} возвращаемый объект, в котором
+			 * firstDigit: единицы, secondDigit: десятки, thirdDigit: сотни. Либо пустой объект в случае ошибки ввода.
+			 */
+			function getDigitsOfNumber(num) {
+				if (!Number.isInteger(num) || num < 0 || num > 999) {
+					alert(
+						`Было передано число вне [0, 999] диапазона, не целое число или вообще не число`
+					);
+					return {};
+				}
+				let numObj = {};
+				numObj.firstDigit = num % 10;
+				numObj.secondDigit = ((num % 100) - (num % 10)) / 10;
+				numObj.thirdDigit = (num - (num % 100)) / 100;
+				return numObj;
+			}
+		</script>
+	</body>
+</html>
