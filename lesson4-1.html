@@ -28,9 +28,7 @@
 				const tempArr = [];
 				/* if (!Number.isInteger(number) || number < ${getRange.min} || number > ${getRange.max}) { */
 				if (!Number.isInteger(number) || number < 0 || number > 999) {
-					alert(
-						`Было передано число вне [0, 999] диапазона, не целое число или вообще не число`
-					);
+					alert(`Было передано число вне диапазона, не целое число или вообще не число`);
 					return {};
 				}
 				while (number !== 0) {
