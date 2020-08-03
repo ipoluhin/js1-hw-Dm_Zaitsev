@@ -15,11 +15,11 @@ const basket = {
         h1Tag.innerHTML = 'Ваша корзина:';
         if (goods.length !== 0) {
             idBasket.appendChild(h1Tag);
-            for (let i = 0; i < goods.length; i++) {
+            goods.forEach(function (item, i, goods) {
                 let good = document.createElement('p');
                 good.innerHTML = `${goods[i].name} сорт '${goods[i].sort}'. Цена за кг ${goods[i].price} р. Количество ${goods[i].value}кг.`;
                 idBasket.appendChild(good);
-            }
+            })
             this.attachMessage();
         } else {
             this.attachMessage();
