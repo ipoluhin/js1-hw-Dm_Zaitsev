@@ -16,19 +16,19 @@ const chessBoard = {
             for (let j = 0; j < this.cols; j++) {
                 let td = document.createElement('td');                          //Создание ячейки
                 if (i % 2 === 0 && j % 2 !== 0 || i % 2 !== 0 && j % 2 === 0) { // i - номер строчки, j -номер столбца
-                    td.classList.add('col__black');                             //Присваиваем класс .col__black ячейке
+                    td.classList.add('col_black');                             //Присваиваем класс .col__black ячейке
                     tr.appendChild(td);                                         //Добавляем ячейку в строку
                 } else {
-                    td.classList.add('col__white');                             //Присваиваем класс .col__white ячейке
+                    td.classList.add('col_white');                             //Присваиваем класс .col__white ячейке
                     tr.appendChild(td);
                 }
                 if (j === 0) {                                                  //Отрисовка Циферок
                     td.innerHTML = arrNumber[i];
-                    td.classList.add('col__grey');
+                    td.classList.add('col_grey');
                 }
                 if (i === 0) {                                                  //Отрисовка Букв
                     td.innerHTML = arrLiter[j];
-                    td.classList.add('col__grey');
+                    td.classList.add('col_grey');
                 }
                 chessTable.appendChild(tr);                                     //Добавляем строки в элементс id
             }

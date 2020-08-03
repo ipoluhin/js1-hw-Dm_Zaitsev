@@ -1,28 +1,28 @@
 #table {
-  box-sizing: border-box;
+	box-sizing: border-box;
 }
 
 td {
-  height: 40px;
-  width: 40px;
+	height: 40px;
+	width: 40px;
 }
 
-.col__black {
-  background-color: black;
-  color: white;
-  font-size: 14px;
+.col_black {
+	background-color: black;
+	color: white;
+	font-size: 14px;
 }
 
-.col__white {
-  background-color: white;
-  border: 1px solid grey;
-  color: black;
+.col_white {
+	background-color: white;
+	border: 1px solid grey;
+	color: black;
 }
 
-.col__grey {
-  background-color: #76806d;
-  color: black;
-  border: 1px solid black;
+.col_grey {
+	background-color: #76806d;
+	color: black;
+	border: 1px solid black;
 }
 
 /*# sourceMappingURL=style.css.map */
