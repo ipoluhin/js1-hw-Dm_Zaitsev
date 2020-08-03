@@ -10,32 +10,38 @@ const chessBoard = {
 
     chess() {
 
-        let chessTable = document.querySelector('#table');                      //Получаем элемент с id
+        let chessTable = document.querySelector('#table');
         for (let i = 0; i < this.rows; i++) {
-            let tr = document.createElement('tr');                              //Создание строки
+            let tr = document.createElement('tr');
             for (let j = 0; j < this.cols; j++) {
-                let td = document.createElement('td');                          //Создание ячейки
-                if (i % 2 === 0 && j % 2 !== 0 || i % 2 !== 0 && j % 2 === 0) { // i - номер строчки, j -номер столбца
-                    td.classList.add('col_black');                             //Присваиваем класс .col__black ячейке
-                    tr.appendChild(td);                                         //Добавляем ячейку в строку
-                } else {
-                    td.classList.add('col_white');                             //Присваиваем класс .col__white ячейке
-                    tr.appendChild(td);
-                }
-                if (j === 0) {                                                  //Отрисовка Циферок
-                    td.innerHTML = arrNumber[i];
-                    td.classList.add('col_grey');
-                }
-                if (i === 0) {                                                  //Отрисовка Букв
-                    td.innerHTML = arrLiter[j];
-                    td.classList.add('col_grey');
-                }
-                chessTable.appendChild(tr);                                     //Добавляем строки в элементс id
+                let td = document.createElement('td');
+                this.renderColumns(i, j, tr, td);
+                this.renderMarkers(i, j, tr, td);
+                chessTable.appendChild(tr);
             }
         }
     },
+    renderColumns(i, j, tr, td) {
+        if (i % 2 === 0 && j % 2 !== 0 || i % 2 !== 0 && j % 2 === 0) {
+            td.classList.add('col_black');
+            tr.appendChild(td);
+        } else {
+            td.classList.add('col_white');
+            tr.appendChild(td);
+        }
+    },
+    renderMarkers(i, j, tr, td) {
+        if (j === 0) {
+            td.innerHTML = arrNumber[i];
+            td.classList.add('col_grey');
+        }
+        if (i === 0) {
+            td.innerHTML = arrLiter[j];
+            td.classList.add('col_grey');
+        }
+    }
 };
 
-chessBoard.chess();                                                             //запускаем отрисовку доски
+chessBoard.chess();
 
 
