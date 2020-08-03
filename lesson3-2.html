@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>lesson3-2</title>
+</head>
+
+<body>
+    <script>
+        'use strict';
+
+        /**
+        корзина: [[товар],[товар],[товар]]
+        товар: [название, кол-во, цена]     */
+
+        const bascet = [
+            ['яблоко', 4, 2],
+            ['груша', 10, 1],
+            ['апельсин', 6, 2],
+        ];
+       
+        bascetPrice();
+        
+        function bascetPrice() {
+            let bascetPrice = 0;
+            for (let i = 0; i <= bascet.length - 1; i++) {
+                bascetPrice += (bascet[i][1]*bascet[i][2]);
+            }
+            return bascetPrice;
+        };
+
+        console.log(`В корзине ${bascet.length} товара(-ов) на сумму ${bascetPrice()} рублей.`);
+    </script>
+</body>
+
+</html>
