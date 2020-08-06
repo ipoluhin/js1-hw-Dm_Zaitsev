@@ -35,7 +35,8 @@ const catalog = {
                 `<div class="product catalog__product">
     <img ${catalog.goodsInCatalog[i].src} alt="image">
     <p>${catalog.goodsInCatalog[i].name} ${catalog.goodsInCatalog[i].sort}</p>
-    <button class="button product__button" id="${catalog.goodsInCatalog[i].name_cat}">Добавить в корзину</button>
+    <button class="button product__button" id="${catalog.goodsInCatalog[i].name_cat}">Количество +</button>
+    <button class="button good__button-delete" id="del${catalog.goodsInCatalog[i].name_cat}">Количество -</button></div>
     <hr></div>`);
         });
         this.eventHandler();
@@ -54,7 +55,23 @@ const catalog = {
                 }
             });
             basket.basketInit();
+        });
+    },
 
+    valueDown() {
+        let valueDown = document.querySelector(`.button-delete`);
+        valueDown.addEventListener('click', (event) => {
+            catalog.goodsInCatalog.forEach(function (item, i) {
+                if (event.target.id === catalog.goodsInCatalog[i].name_cat) {
+                    if (basket.goodsInBasket.includes(catalog.goodsInCatalog[i])) {
+                        let basketItemIndex = basket.goodsInBasket.indexOf(catalog.goodsInCatalog[i]);
+                        basket.goodsInBasket[basketItemIndex].value--;
+                    } else {
+                        basket.goodsInBasket.splice(event.target.id, 1);
+                    };
+                }
+            });
+            basket.basketInit();
         });
     },
 
@@ -111,9 +128,14 @@ const basket = {
             idBasket.appendChild(pTag);
         } else {
             // #idTotalPrice
+            let commonweigth = 0;
+            basket.goodsInBasket.forEach((item, i) => {
+                commonweigth += basket.goodsInBasket[i].value;
+            })
             let idBasket = document.querySelector('#idBasket');
             idBasket.insertAdjacentHTML('beforeend',
-                `<hr>В корзине ${this.goodsInBasket.length} товара/-ов на сумму ${this.countBasketPrice()} руб. 
+                `<hr>В корзине ${this.goodsInBasket.length} товара/-ов на сумму ${this.countBasketPrice()} руб.
+                Общий вес - ${commonweigth} кг.
                        <p></p>
                        <button class="button basket__drop-button" id="idDropBasketButton">Очистить корзину</button>
                        <p><input type="submit" value="Далее" id="idShippingButton"></p>`);
