@@ -1,63 +1,242 @@
+body {
+  margin: 0;
+}
+
+p {
+  margin: 0;
+}
+
+.header {
+  margin: 0 auto;
+  width: 700px;
+  height: 110px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  background-color: #7d5c5c;
+  color: #CCC;
+  text-align: left;
+  box-sizing: border-box;
+  border: 1px solid #cccccc;
+  border-radius: 0 0 8px 0;
+  box-shadow: 1px 1px 1px #ccc;
+  padding: 20px;
+}
+
+.header .logo {
+  width: 43%;
+  height: 100%;
+  box-sizing: border-box;
+  border-right: 1px solid #ccc;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.header .logo .shop-name {
+  font-size: 24px;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: 400;
+  text-align: center;
+  font-size: #e9f3ed;
+}
+
+.header .total {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50%;
+  position: relative;
+  margin: 0 20px 0 0;
+}
+
+.header .total .total-info {
+  display: flex;
+  justify-content: space-between;
+  flex-flow: row;
+  color: #e9f3ed;
+}
+
+.header .total .in-cart {
+  margin: 0 80px 0 0;
+}
+
+.header .total .result-info {
+  display: flex;
+  flex-flow: column;
+}
+
+.header .total .result-info .value,
+.header .total .result-info .total-weight {
+  margin: 0 0 5px 0;
+}
+
+.header .total .empty-cart-message {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin: 5px 0;
+  text-align: center;
+  color: #e9f3ed;
+}
+
+.header .total .basket__drop-button {
+  bottom: 23px;
+  right: -15px;
+  height: 25px;
+  width: 25px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  text-decoration: none;
+  backgound-color: #f80707;
+  color: #cccccc;
+  box-sizing: border-box;
+  border: 0.5px solid #cccccc;
+  border-radius: 50%;
+  position: absolute;
+}
+
+.header .total .basket__drop-button:hover {
+  box-shadow: 1px 1px 1px #cccccc;
+}
+
+.header .total .basket__drop-button:active {
+  box-shadow: 2px 2px 3px #cccccc, 1px 1px 1px #cccccc inset;
+}
+
 .content {
-	display: flex;
-	flex-direction: column;
-	justify-content: space-around;
-	background-color: aliceblue;
-	width: 300px;
-	outline: 1px solid black;
+  margin: 0 auto;
+  max-width: 700px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  background-color: #919a9a;
+  box-sizing: border-box;
+  border: 1px solid #cccccc;
+  border-radius: 0 8px 8px 0;
+  box-shadow: 1px 1px 1px #cccccc;
 }
+
 .content .catalog {
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	background-color: azure;
-	outline: 1px solid black;
-}
-.content .catalog .product .catalog__product {
-	display: flex;
-	flex-direction: column;
-	background-color: cornsilk;
-	height: 30px;
-	outline: 1px solid black;
-}
-.content .catalog .product .catalog__product Img {
-	height: 50px;
-	width: 50px;
-}
-.content .catalog .product .catalog__product .button .product__button {
-	display: flex;
-	width: 50px;
-	height: 25px;
-	outline: 1px solid black;
+  width: 40%;
+  flex-flow: row wrap;
+  justify-content: center;
+  background-color: #d8ded9;
+  margin: 0 0 0 0;
+  padding: 20px;
 }
 
-.basket {
-	outline: 1px solid black;
-	display: flex;
-	flex-direction: column;
-	justify-content: space-around;
-	background-color: beige;
-}
-.basket .good .basket__good {
-	border: 1px solid black;
-	display: flex;
-	justify-content: space-between;
-}
-.basket .good .basket__good .good__description {
-	font-size: 10px;
-	border: 1px solid red;
-	background-color: darkkhaki;
-}
-.basket .good .basket__good .button .good__button-delete {
-	width: 30px;
-	height: 30px;
-}
-.basket .total-price {
-	display: flex;
-	flex-direction: column;
-	justify-content: space-around;
-	background-color: #0d8027;
-	outline: 1px dotted black;
+.content .catalog .catalog__product {
+  display: flex;
+  flex-flow: column;
+  width: 200px;
+  height: 100px;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 1px 1px 1px #cccccc;
+  padding: 10px;
+  background-color: cornsilk;
+  margin: 5px;
 }
 
-/*# sourceMappingURL=style.css.map */
+.content .catalog .catalog__product:hover {
+  box-shadow: 2px 2px 2px #bebcbc;
+}
+
+.content .catalog .catalog__product .product-cart {
+  display: flex;
+  flex-flow: row;
+  justify-content: space-around;
+  margin: 0 0 15px 0;
+}
+
+.content .catalog .catalog__product .product-cart .description {
+  display: flex;
+  flex-flow: column;
+}
+
+.content .catalog .catalog__product .product-cart .description .product-name {
+  margin: 0 0 5px 0;
+}
+
+.content .catalog .catalog__product .product-cart .description .pruduct-img {
+  width: 50%;
+  margin: 0 0 15px 0;
+}
+
+.content .catalog .catalog__product .product-cart .button-block {
+  display: flex;
+  flex-flow: row;
+  justify-content: space-around;
+  height: 50%;
+}
+
+.content .catalog .catalog__product .product-cart .button-block .button {
+  box-sizing: border-box;
+  border: 1px solid #cccccc;
+  border-radius: 3px;
+  padding: 5px;
+}
+
+.content .catalog .catalog__product .product-cart .button-block .button .product__button {
+  margin: 3px;
+}
+
+.content .basket {
+  /** background-image: url('../img/bg_basket.webp') **/
+  background-color: #fff;
+  background-size: cover;
+  width: 60%;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 0 8px 8px 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: center;
+  padding: 10px 10px 0 10px;
+}
+
+.content .basket .cart-header {
+  text-align: center;
+}
+
+.content .basket .good {
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 1px 1px 1px #db9898;
+  font-size: 14px;
+  line-height: 14px;
+  padding: 5px 5px 5px 5px;
+  margin: 0 0 5px 0;
+  background-color: #fbfbfb;
+}
+
+.content .basket .good:hover {
+  box-shadow: 2px 2px 2px #bebcbc;
+}
+
+.content .basket .good .basket__good {
+  display: flex;
+  justify-content: start;
+}
+
+.content .basket .good .basket__good .good__description {
+  border: 1px solid red;
+  background-color: #9e1a1a;
+}
+
+.content .basket .good .basket__good .button .good__button-delete {
+  width: 30px;
+  margin: -14px 0 0 0;
+}
+
+.content .basket .good .basket-footer {
+  display: flex;
+  flex-flow: column;
+  height: 100%;
+}
