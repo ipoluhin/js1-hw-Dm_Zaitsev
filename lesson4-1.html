@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<title>lesson4-1</title>
+	</head>
+	<body>
+		<script>
+			"use strict";
+
+			let result = {};
+			let number = +prompt(`Введите число в периоде от 0 до 999 включительно.`);
+			//Если ввести пользовательские установки мин и макс диапазона, то далее следует добавить в result
+			//свойства для новых чисел.
+			/* let number = +prompt(`Введите число в периоде от ${getRange.min} до ${getRange.max} включительно.`);
+			const getRange = {
+				min: +prompt(`Укажите минимальный предел`),
+				max: +prompt(`Укажите максимальный предел`),
+			} */
+
+			/**
+			 * функция формирует объект на основе введенного числа из [0, 999].
+			 * @param num - число, введенное пользователем
+			 * @returns {Object} возвращаемый объект, в котором
+			 * firstDigit: единицы, secondDigit: десятки, thirdDigit: сотни. Либо пустой объект в случае ошибки ввода.
+			 */
+			function getDigitsOfNumber(number) {
+				const tempArr = [];
+				/* if (!Number.isInteger(number) || number < ${getRange.min} || number > ${getRange.max}) { */
+				if (!Number.isInteger(number) || number < 0 || number > 999) {
+					alert(`Было передано число вне диапазона, не целое число или вообще не число`);
+					return {};
+				}
+				while (number !== 0) {
+					let num = number % 10;
+					tempArr.push(num);
+					number = Math.trunc(number * 0.1);
+				}
+				[result.firstDigit, result.secondDigit, result.thirdDigit] = tempArr; //Только для трех чисел
+				return result;
+			}
+
+			getDigitsOfNumber(number);
+			console.log(result);
+		</script>
+	</body>
+</html>
