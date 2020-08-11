@@ -8,7 +8,6 @@ const goodsBase = [
         type: 'product',
         sort: '"Антоновка"',
         price: 34,
-        value: 1,
         src: `src="./img/apple_antonovka.jpg"`,
     },
     {
@@ -17,7 +16,6 @@ const goodsBase = [
         type: 'product',
         sort: '"Мраморная"',
         price: 40,
-        value: 1,
         src: `src="./img/pear_mramornaya.jpg"`,
     },
     {
@@ -26,7 +24,6 @@ const goodsBase = [
         type: 'product',
         sort: '"Черная"',
         price: 37,
-        value: 1,
         src: `src="./img/plum_black.webp"`,
     },
     {
@@ -35,7 +32,6 @@ const goodsBase = [
         type: 'product',
         sort: '"Соната"',
         price: 45,
-        value: 1,
         src: `src="./img/peach_sonata.jpg"`,
     },
 ];
@@ -43,21 +39,21 @@ const goodsBase = [
 const goodsInBasket = [];
 
 class Item {
-    constructor(name, name_eng, type, sort, price, value, src) {
+    constructor(name, name_eng, type, sort, price, src) {
         this.name = name;
         this.name_eng = name_eng;
         this.type = type;
         this.sort = sort;
         this.price = price;
-        this.value = value;
+        /* this.value = value; */
         this.src = src;
     }
 };
 
 /* Класс Товар каталог */
 class CatalogItem extends Item {
-    constructor(name, name_eng, type, sort, price, value, src) {
-        super(name, name_eng, type, sort, price, value, src);
+    constructor(name, name_eng, type, sort, price, src) {
+        super(name, name_eng, type, sort, price, src);
     };
 
     render(i) {
@@ -83,18 +79,19 @@ class CatalogItem extends Item {
 
 /* Класс Товар корзины */
 class BasketItem extends Item {
-    constructor(name, name_eng, type, sort, price, value, src) {
-        super(name, name_eng, type, sort, price, value, src);
+    constructor(name, name_eng, type, sort, price, src) {
+        super(name, name_eng, type, sort, price, src);
     };
 
     render(i) {
         let bas = document.querySelector('#idBasket');
         bas.insertAdjacentHTML('beforeend',
             `<div class="good basket__good" id="basket__good">
-            <p class = "good__description">${goodsBase[i].name} -- сорт '${goodsBase[i].sort}'
-                -- цена за кг ${goodsBase[i].price} р. -- Количество ${goodsBase[i].value}кг.
+            <img ${goodsBase[i].src} alt="image" class="pruduct-img" width="50" height="37">
+            <p class = "good__description">${goodsInBasket[i].name} -- сорт '${goodsInBasket[i].sort}'
+                -- цена за кг ${goodsInBasket[i].price} р. -- Количество ${goodsInBasket[i].value}кг.
             </p>
-            <button class="button good__button-delete" id="delPos${goodsBase[i].name}">Удалить</button>
+            <button class="button good__button-delete" id="delPos${goodsInBasket[i].name_eng}">Удалить</button>
         </div>`
         );
         return bas;
@@ -126,21 +123,9 @@ const basket = {
                 /* События на кнопки изменения количества позиций товара */
                 buttons.delBasketPosition(i);
             })
-            totalInfo.init();
-        } else {
-            totalInfo.init();
         }
+        totalInfo.init();
     },
-
-
-
-
-
-
-    /* disactivateBasket() {
-        let idBasket = document.querySelector('#idCatalog');
-        idBasket.innerHTML = ``;
-    }, */
 };
 
 /** Кнопки для работы с количеством товара, очистки позиций по штучно и полностью блока корзины,
@@ -150,12 +135,16 @@ const buttons = {
     valueUp(i) {
         let cat = document.querySelector(`#plus${goodsBase[i].name_eng}`);
         cat.addEventListener('click', (event) => {
-            /* console.log(`#plus${goodsBase[i].name_eng}`); */
             if (goodsInBasket.includes(goodsBase[i])) {
                 let basketItemIndex = goodsInBasket.indexOf(goodsBase[i]);
+                if (!goodsInBasket[basketItemIndex].value) {
+                    goodsInBasket[basketItemIndex].value = 1;
+                }
                 goodsInBasket[basketItemIndex].value++;
             } else {
                 goodsInBasket.push(goodsBase[i]);
+                let basketItemIndex = goodsInBasket.indexOf(goodsBase[i]);
+                goodsInBasket[basketItemIndex].value = 1;
             };
             this.reloadBasket('#idBasket');
         })
@@ -163,8 +152,7 @@ const buttons = {
     valueDown(i) {
         let cat = document.querySelector(`#minus${goodsBase[i].name_eng}`);
         cat.addEventListener('click', (event) => {
-            /* console.log(`#plus${goodsBase[i].name_eng}`); */
-            if (goodsInBasket.includes(goodsInBasket[i])) {
+            if (goodsInBasket.includes(goodsBase[i])) {
                 let basketItemIndex = goodsInBasket.indexOf(goodsBase[i]);
                 if (goodsInBasket[basketItemIndex].value > 0) {
                     goodsInBasket[basketItemIndex].value--;
@@ -177,7 +165,7 @@ const buttons = {
         });
     },
     delBasketPosition(i) {
-        let deleteButton = document.querySelector(`#delPos${goodsBase[i].name}`);
+        let deleteButton = document.querySelector(`#delPos${goodsInBasket[i].name_eng}`);
         deleteButton.addEventListener('click', (event) => {
             goodsInBasket.splice(i, 1);
             this.reloadBasket('#idBasket');
@@ -185,30 +173,32 @@ const buttons = {
     },
     dropBasket() {
         let dropButton = document.querySelector('#idDropBasketButton');
-        dropButton.addEventListener('click', () => {
-            goodsInBasket = [];
-            this.reloadBasket('#total');
+        dropButton.addEventListener('click', (event) => {
+            event.preventDefault();
+            goodsInBasket.splice(0);
+            this.reloadBasket('#idBasket');
+
         })
     },
     reloadBasket(source) {
         let el = document.querySelector(source);
-        idCatalog.innerHTML = ``;
+        el.innerHTML = ``;
         basket.Init();
-    }
-    ,
+    },
 }
 
 const totalInfo = {
     init() {
+        let total = document.querySelector('#total');
         if (goodsInBasket.length === 0) {
-            let totalInfo = document.querySelector('#total');
-            totalInfo.insertAdjacentHTML('afterbegin', `<span class="empty-cart-message">Ваша корзина пуста.</span>`);
+            total.innerHTML = ``;
+            total.insertAdjacentHTML('afterbegin', `<span class="empty-cart-message">Ваша корзина пуста.</span>`);
         } else {
             this.render(goodsInBasket);
+            buttons.dropBasket();
         }
     },
     render(goodsInBasket) {
-        let total = document.querySelector('#total');
         total.innerHTML = ``;
         total.insertAdjacentHTML('afterbegin',
             `<div class="total-info">
