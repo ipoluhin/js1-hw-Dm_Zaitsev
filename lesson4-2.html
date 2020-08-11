@@ -1,36 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<title>lesson4-2</title>
+	</head>
 
-<head>
-    <meta charset="UTF-8">
-    <title>lesson4-2</title>
-</head>
+	<body>
+		<div class="wrap"></div>
+		<script>
+			"use strict";
 
-<body>
-<div class="wrap"></div>
-<script>
-    'use strict';
+			const goods = [
+				{ name: "apple", type: "product", sort: "antonovka", price: 34, value: 10 },
+				{ name: "pear", type: "product", sort: "mramornaya", price: 40, value: 13 },
+			];
+			const basket = {
+				countBasketPrice() {
+					return goods.reduce((a, { price, value }) => a + price * value, 0);
+				},
+			};
+			console.log(`Стоимость корзины равна ${basket.countBasketPrice()} руб.`);
 
-
-    const goods = [{name: 'apple', type: 'product', sort: 'antonovka', price: 34, value: 10,},
-                   {name: 'pear', type: 'product', sort: 'mramornaya', price: 40, value: 13,}];
-    const basket = {
-        countBasketPrice() {return goods.reduce((a, {price, value}) => a + (price * value), 0);}
-    };
-    console.log(`Стоимость корзины равна ${basket.countBasketPrice()} руб.`);
-
-    
-    //     const basket = {
-//         countBasketPrice() {
-//             let sum = 0;
-//             for (let i = 0; i < goods.lenght; i++) {
-//                 sum = sum + goods[i].price * goods[i].value;
-//             }
-//             return price;
-//         }
-//     };
-    
-</script>
-</body>
-
+			//     const basket = {
+			//         countBasketPrice() {
+			//             let sum = 0;
+			//             for (let i = 0; i < goods.lenght; i++) {
+			//                 sum = sum + goods[i].price * goods[i].value;
+			//             }
+			//             return price;
+			//         }
+			//     };
+		</script>
+	</body>
 </html>
