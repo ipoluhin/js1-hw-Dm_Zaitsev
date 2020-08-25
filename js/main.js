@@ -55,7 +55,6 @@ class CatalogItem extends Item {
     constructor(name, name_eng, type, sort, price, src) {
         super(name, name_eng, type, sort, price, src);
     };
-
     render(i) {
         let cat = document.querySelector('#idCatalog');
         cat.insertAdjacentHTML('beforeend',
@@ -87,7 +86,7 @@ class BasketItem extends Item {
         let bas = document.querySelector('#idBasket');
         bas.insertAdjacentHTML('beforeend',
             `<div class="good basket__good" id="basket__good">
-            <img ${goodsBase[i].src} alt="image" class="pruduct-img" width="50" height="37">
+            <img ${goodsInBasket[i].src} alt="image" class="pruduct-img" width="50" height="37">
             <p class = "good__description">${goodsInBasket[i].name} -- сорт '${goodsInBasket[i].sort}'
                 -- цена за кг ${goodsInBasket[i].price} р. -- Количество ${goodsInBasket[i].value}кг.
             </p>
@@ -98,13 +97,25 @@ class BasketItem extends Item {
     };
 };
 
-
+/* Общий класс Список товаров ItemList */
+/**TODO: необходимо переписать каталог и корзину, наследованные от класса ItemList. Классы ниже - старое исполнение */
+class ItemList {
+    init(listName) {
+        goodsBase.forEach((item, i) => {
+            const GoodInList = new listName(item.name, item.name_eng, item.type, item.sort, item.price, item.src);
+            GoodInList.render(i);
+            /* События на кнопки изменения количества товара */
+            buttons.valueUp(i);
+            buttons.valueDown(i);
+        });
+    };
+}
 
 //Отрисовка каталога
 const catalog = {
     init() {
         goodsBase.forEach(function (item, i) {
-            const GoodInList = new CatalogItem(item.name, item.name_eng, item.type, item.sort, item.price, item.value, item.src);
+            const GoodInList = new CatalogItem(item.name, item.name_eng, item.type, item.sort, item.price, item.src);
             GoodInList.render(i);
             /* События на кнопки изменения количества товара */
             buttons.valueUp(i);
