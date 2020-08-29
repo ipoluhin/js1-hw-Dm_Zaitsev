@@ -18,20 +18,20 @@ class CatalogItem extends Item {
     constructor(name, name_eng, type, sort, price, src) {
         super(name, name_eng, type, sort, price, src);
     };
-    render(i, container) {
+    render(i, container, source) {
         let cat = document.querySelector(container);
         cat.insertAdjacentHTML('beforeend',
             `<div class="catalog__product">
     <div class="product-cart">
-        <img ${catalog.goodsBase[i].src} alt="image" class="pruduct-img" width="50" height="37">
+        <img ${source[i].src} alt="image" class="pruduct-img" width="50" height="37">
         <section class="description">
-            <sppan class="product-name">${catalog.goodsBase[i].name}</sppan>
-            <span>${catalog.goodsBase[i].sort}</span>
+            <sppan class="product-name">${source[i].name}</sppan>
+            <span>${source[i].sort}</span>
         </section>
     </div>
     <div class="button-block">
-        <button class="button product__button" id="plus${catalog.goodsBase[i].name_eng}">Добавить</button>
-        <button class="button button-delete" id="minus${catalog.goodsBase[i].name_eng}">Убавить</button>
+        <button class="button product__button" id="plus${source[i].name_eng}">Добавить</button>
+        <button class="button button-delete" id="minus${source[i].name_eng}">Убавить</button>
     </div>
     </div>`
         );
@@ -44,15 +44,15 @@ class BasketItem extends Item {
     constructor(name, name_eng, type, sort, price, src) {
         super(name, name_eng, type, sort, price, src);
     };
-    render(i, container) {
+    render(i, container, source) {
         let bas = document.querySelector(container);
         bas.insertAdjacentHTML('beforeend',
             `<div class="good basket__good" id="basket__good">
-            <img ${basket.goodsInBasket[i].src} alt="image" class="pruduct-img" width="50" height="37">
-            <p class = "good__description">${basket.goodsInBasket[i].name} -- сорт '${basket.goodsInBasket[i].sort}'
-                -- цена за кг ${basket.goodsInBasket[i].price} р. -- Количество ${basket.goodsInBasket[i].value}кг.
+            <img ${source[i].src} alt="image" class="pruduct-img" width="50" height="37">
+            <p class = "good__description">${source[i].name} -- сорт '${source[i].sort}'
+                -- цена за кг ${source[i].price} р. -- Количество ${source[i].value}кг.
             </p>
-            <button class="button good__button-delete" id="delPos${basket.goodsInBasket[i].name_eng}">Удалить</button>
+            <button class="button good__button-delete" id="delPos${source[i].name_eng}">Удалить</button>
         </div>`
         );
         return bas;
@@ -65,11 +65,12 @@ class CatalogList {
         this.container = container;
         this.goodsBase = [];
         this._fetchGoods();
+        this.init('#idCatalog', '#idBasket');
     };
     init(container, basketContainer) {
         this.goodsBase.forEach((item, i) => {
             const GoodInList = new CatalogItem(item.name, item.name_eng, item.type, item.sort, item.price, item.src);
-            GoodInList.render(i, container);
+            GoodInList.render(i, container, this.goodsBase);
             this.valueUp(i, basketContainer);
             this.valueDown(i, basketContainer);
         });
@@ -149,16 +150,16 @@ class BasketList {
     constructor(container) {
         this.container = container;
         this.goodsInBasket = [];
+        this.init('#idBasket');
     };
     init(container) {
         if (this.goodsInBasket.length !== 0) {
             this.goodsInBasket.forEach((item, i) => {
                 const GoodInList = new BasketItem(item.name, item.name_eng, item.type, item.sort, item.price, item.value, item.src);
-                GoodInList.render(i, container);
+                GoodInList.render(i, container, this.goodsInBasket);
                 this.delBasketPosition(i, container);
             })
         }
-        this.initTotalInfo(container);
     };
     delBasketPosition(i, container) {
         let deleteButton = document.querySelector(`#delPos${this.goodsInBasket[i].name_eng}`);
@@ -179,17 +180,15 @@ class BasketList {
         let el = document.querySelector(container);
         el.innerHTML = ``;
         this.init(container);
-    };
-    initTotalInfo(container) {
-        const totalInfoInstance = new TotalInfo();
         totalInfoInstance.init('#total', this.goodsInBasket, container);
     };
 }
 
 /** Класс для вывода информации о корзине */
 class TotalInfo {
-    constructor(container) {
+    constructor(container, basketContainer) {
         this.container = container;
+        this.init('#total', basket.goodsInBasket, basketContainer);
     }
     init(container, list, basketContainer) {
         let total = document.querySelector(container);
@@ -223,7 +222,6 @@ class TotalInfo {
 
 const catalog = new CatalogList();
 const basket = new BasketList();
-catalog.init('#idCatalog', '#idBasket');
-basket.init('#idBasket');
+const totalInfoInstance = new TotalInfo();
 
 
