@@ -58,23 +58,53 @@ class BasketItem extends Item {
     };
 };
 
+/** Класс bнициализации блока контента */
+class ContentBlock {
+    constructor(container = 'body') {
+        this.container = container;
+        this.catalogContainer = '#idCatalog';
+        this.basketContainer = '#idBasket';
+        this.totalContaimer = '#total';
+        this.render('idCatalog', 'idBasket', 'total');
+    };
+    render(idCatalog, idBasket, total) {
+        let header = document.querySelector(this.container);
+        header.insertAdjacentHTML('afterbegin',
+            `<header class="header">
+			<section class="logo">
+				<p class="shop-name">Продукты</p>
+			</section>
+			<section class="total" id="${total}"><!-- Общая информация о корзине --></section>
+		</header>`);
+        let content = document.querySelector(this.container);
+        content.insertAdjacentHTML('beforeend',
+            `<section class="content" id="idContent">
+            <div class="catalog" id="${idCatalog}">
+				<!-- Раздел товаров каталога -->
+			</div>
+			<div class="basket" id="${idBasket}">
+				<!-- Выбранные товары -->
+            </div>
+            </section>`);
+    };
+}
 /** Класс Каталога */
 class CatalogList {
-    constructor(container) {
+    constructor(container = baseSettings.catalogContainer) {
         this.container = container;
         this.goodsBase = [];
         this._fetchGoods();
-        this.init('#idCatalog', '#idBasket');
+        this.init();
     };
-    init(container, basketContainer) {
+    init() {
         this.goodsBase.forEach((item, i) => {
             const GoodInList = new CatalogItem(item.name, item.name_eng, item.type, item.sort, item.price, item.src);
-            GoodInList.render(i, container, this.goodsBase);
-            this.valueUp(i, basketContainer);
-            this.valueDown(i, basketContainer);
+            GoodInList.render(i, this.container, this.goodsBase);
+            this.valueUp(i);
+            this.valueDown(i);
         });
     };
-    valueUp(i, basketContainer) {
+    valueUp(i) {
         let cat = document.querySelector(`#plus${this.goodsBase[i].name_eng}`);
         cat.addEventListener('click', (event) => {
             if (basket.goodsInBasket.includes(this.goodsBase[i])) {
@@ -88,10 +118,10 @@ class CatalogList {
                 let basketItemIndex = basket.goodsInBasket.indexOf(this.goodsBase[i]);
                 basket.goodsInBasket[basketItemIndex].value = 1;
             };
-            basket.reloadBasket(basketContainer);
+            basket.reloadBasket();
         })
     };
-    valueDown(i, basketContainer) {
+    valueDown(i) {
         let cat = document.querySelector(`#minus${this.goodsBase[i].name_eng}`);
         cat.addEventListener('click', (event) => {
             if (basket.goodsInBasket.includes(this.goodsBase[i])) {
@@ -102,7 +132,7 @@ class CatalogList {
                 if (basket.goodsInBasket[basketItemIndex].value === 0) {
                     basket.goodsInBasket.splice(basketItemIndex, 1);
                 }
-                basket.reloadBasket(basketContainer);
+                basket.reloadBasket();
             };
         });
     };
@@ -146,65 +176,66 @@ class CatalogList {
 
 /** Класс Корзины */
 class BasketList {
-    constructor(container) {
+    constructor(container = baseSettings.basketContainer) {
         this.container = container;
         this.goodsInBasket = [];
-        this.init('#idBasket');
+        this.init();
     };
-    init(container) {
+    init() {
         if (this.goodsInBasket.length !== 0) {
             this.goodsInBasket.forEach((item, i) => {
                 const GoodInList = new BasketItem(item.name, item.name_eng, item.type, item.sort, item.price, item.value, item.src);
-                GoodInList.render(i, container, this.goodsInBasket);
-                this.delBasketPosition(i, container);
+                GoodInList.render(i, this.container, this.goodsInBasket);
+                this.delBasketPosition(i);
             })
         }
     };
-    delBasketPosition(i, container) {
+    delBasketPosition(i) {
         let deleteButton = document.querySelector(`#delPos${this.goodsInBasket[i].name_eng}`);
         deleteButton.addEventListener('click', (event) => {
             basket.goodsInBasket.splice(i, 1);
-            this.reloadBasket(container);
+            this.reloadBasket(this.container);
         })
     };
-    dropBasket(container) {
+    dropBasket() {
         let dropButton = document.querySelector('#idDropBasketButton');
         dropButton.addEventListener('click', (event) => {
             event.preventDefault();
             this.goodsInBasket.splice(0);
-            this.reloadBasket(container);
+            this.reloadBasket();
         })
     };
-    reloadBasket(container) {
-        let el = document.querySelector(container);
+    reloadBasket() {
+        let el = document.querySelector(this.container);
         el.innerHTML = ``;
-        this.init(container);
-        totalInfoInstance.init('#total', this.goodsInBasket, container);
+        this.init(this.container);
+        totalInfoInstance.init(this.goodsInBasket, this.container);
     };
 }
 
 /** Класс для вывода информации о корзине */
 class TotalInfo {
-    constructor(container, basketContainer) {
+    constructor(container = baseSettings.totalContaimer) {
         this.container = container;
-        this.init('#total', basket.goodsInBasket, basketContainer);
+        this.init(basket.goodsInBasket);
     }
-    init(container, list, basketContainer) {
-        let total = document.querySelector(container);
-        if (list.length === 0) {
+    init(sourceArray) {
+        let total = document.querySelector(this.container);
+        if (sourceArray.length === 0) {
             total.innerHTML = ``;
             total.insertAdjacentHTML('afterbegin', `<span class="empty-cart-message">Ваша корзина пуста.</span>`);
         } else {
-            this.render(container);
-            basket.dropBasket(basketContainer);
+            this.render(sourceArray);
+            basket.dropBasket(basket.container);
         }
     };
-    render(container) {
+    render(sourceArray) {
+        let total = document.querySelector(this.container);
         total.innerHTML = ``;
         total.insertAdjacentHTML('afterbegin',
             `<div class="total-info">
                 <p class="in-cart">В корзине:</p>
-                <div class = "result-info"><p class="value">Позиций:  ${container.length}</p>
+                <div class = "result-info"><p class="value">Позиций:  ${sourceArray.length}</p>
                 <p class="total-weight">Общий вес - ${this.countWeight()}кг.</p>
                 <p class="total-price">Сумма: ${this.countBasketPrice()} руб.</p></div>
             </div>
@@ -218,6 +249,7 @@ class TotalInfo {
     };
 }
 
+const baseSettings = new ContentBlock();
 const catalog = new CatalogList();
 const basket = new BasketList();
 const totalInfoInstance = new TotalInfo();
