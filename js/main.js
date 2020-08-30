@@ -56,6 +56,13 @@ class BasketItem extends Item {
         );
         return bas;
     };
+    delBasketPosition(i) {
+        let deleteButton = document.querySelector(`#delPos${basket.goodsInBasket[i].name_eng}`);
+        deleteButton.addEventListener('click', () => {
+            basket.goodsInBasket.splice(i, 1);
+            basket._reloadBasket();
+        })
+    };
 };
 
 /** Класс bнициализации блока контента */
@@ -98,15 +105,16 @@ class CatalogList {
     };
     init() {
         this.goodsBase.forEach((item, i) => {
-            const GoodInList = new CatalogItem(item.name, item.name_eng, item.type, item.sort, item.price, item.src);
-            GoodInList.render(i, this.container, this.goodsBase);
-            this.valueUp(i);
-            this.valueDown(i);
+            const goodInList = new CatalogItem(item.name, item.name_eng, item.type, item.sort, item.price, item.src);
+            goodInList.render(i, this.container, this.goodsBase);
+            this._valueUp(i);
+            this._valueDown(i);
         });
     };
-    valueUp(i) {
+    /** TODO: переместить кнопки количества в класс товара, т.к. эт по факту кнопки товара, а не каталога */
+    _valueUp(i) {
         let cat = document.querySelector(`#plus${this.goodsBase[i].name_eng}`);
-        cat.addEventListener('click', (event) => {
+        cat.addEventListener('click', () => {
             if (basket.goodsInBasket.includes(this.goodsBase[i])) {
                 let basketItemIndex = basket.goodsInBasket.indexOf(this.goodsBase[i]);
                 if (!basket.goodsInBasket[basketItemIndex].value) {
@@ -118,12 +126,12 @@ class CatalogList {
                 let basketItemIndex = basket.goodsInBasket.indexOf(this.goodsBase[i]);
                 basket.goodsInBasket[basketItemIndex].value = 1;
             };
-            basket.reloadBasket();
+            basket._reloadBasket();
         })
     };
-    valueDown(i) {
+    _valueDown(i) {
         let cat = document.querySelector(`#minus${this.goodsBase[i].name_eng}`);
-        cat.addEventListener('click', (event) => {
+        cat.addEventListener('click', () => {
             if (basket.goodsInBasket.includes(this.goodsBase[i])) {
                 let basketItemIndex = basket.goodsInBasket.indexOf(this.goodsBase[i]);
                 if (basket.goodsInBasket[basketItemIndex].value > 0) {
@@ -132,10 +140,11 @@ class CatalogList {
                 if (basket.goodsInBasket[basketItemIndex].value === 0) {
                     basket.goodsInBasket.splice(basketItemIndex, 1);
                 }
-                basket.reloadBasket();
+                basket._reloadBasket();
             };
         });
     };
+    /** */
     _fetchGoods() {
         this.goodsBase = [
             {
@@ -184,32 +193,24 @@ class BasketList {
     init() {
         if (this.goodsInBasket.length !== 0) {
             this.goodsInBasket.forEach((item, i) => {
-                const GoodInList = new BasketItem(item.name, item.name_eng, item.type, item.sort, item.price, item.value, item.src);
-                GoodInList.render(i, this.container, this.goodsInBasket);
-                this.delBasketPosition(i);
+                const goodInList = new BasketItem(item.name, item.name_eng, item.type, item.sort, item.price, item.value, item.src);
+                goodInList.render(i, this.container, this.goodsInBasket);
+                goodInList.delBasketPosition(i);
             })
         }
     };
-    delBasketPosition(i) {
-        let deleteButton = document.querySelector(`#delPos${this.goodsInBasket[i].name_eng}`);
-        deleteButton.addEventListener('click', (event) => {
-            basket.goodsInBasket.splice(i, 1);
-            this.reloadBasket(this.container);
-        })
+    _dropBasket() {
+        this.goodsInBasket.splice(0);
+        this._reloadBasket();
     };
-    dropBasket() {
-        let dropButton = document.querySelector('#idDropBasketButton');
-        dropButton.addEventListener('click', (event) => {
-            event.preventDefault();
-            this.goodsInBasket.splice(0);
-            this.reloadBasket();
-        })
-    };
-    reloadBasket() {
-        let el = document.querySelector(this.container);
-        el.innerHTML = ``;
+    _reloadBasket() {
+        this.clearBasket();
         this.init(this.container);
         totalInfoInstance.init(this.goodsInBasket, this.container);
+    };
+    clearBasket() {
+        let el = document.querySelector(this.container);
+        el.innerHTML = ``;
     };
 }
 
@@ -226,7 +227,7 @@ class TotalInfo {
             total.insertAdjacentHTML('afterbegin', `<span class="empty-cart-message">Ваша корзина пуста.</span>`);
         } else {
             this.render(sourceArray);
-            basket.dropBasket(basket.container);
+            this._dropBasket();
         }
     };
     render(sourceArray) {
@@ -240,6 +241,13 @@ class TotalInfo {
                 <p class="total-price">Сумма: ${this.countBasketPrice()} руб.</p></div>
             </div>
             <a href="#" class="button basket__drop-button" id="idDropBasketButton">X</a>`);
+    };
+    _dropBasket() {
+        let dropButton = document.querySelector('#idDropBasketButton');
+        dropButton.addEventListener('click', (event) => {
+            event.preventDefault();
+            basket._dropBasket();
+        })
     };
     countWeight() {
         return basket.goodsInBasket.reduce((a, { value }) => a + value, 0);
