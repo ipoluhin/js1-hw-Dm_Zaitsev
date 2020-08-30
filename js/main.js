@@ -10,7 +10,6 @@ class Item {
         this.price = price;
         this.src = src;
     }
-
 };
 
 /* Класс Товар каталог */
@@ -217,7 +216,6 @@ class TotalInfo {
     countBasketPrice() {
         return basket.goodsInBasket.reduce((a, { price, value }) => a + (price * value), 0);
     };
-
 }
 
 const catalog = new CatalogList();
