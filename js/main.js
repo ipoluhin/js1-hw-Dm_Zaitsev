@@ -56,11 +56,11 @@ class BasketItem extends Item {
         );
         return bas;
     };
-    delBasketPosition(i) {
+    btnDeleteBasketPosition(i) {
         let deleteButton = document.querySelector(`#delPos${basket.goodsInBasket[i].name_eng}`);
         deleteButton.addEventListener('click', () => {
             basket.goodsInBasket.splice(i, 1);
-            basket._reloadBasket();
+            basket.reloadBasket();
         })
     };
 };
@@ -107,12 +107,12 @@ class CatalogList {
         this.goodsBase.forEach((item, i) => {
             const goodInList = new CatalogItem(item.name, item.name_eng, item.type, item.sort, item.price, item.src);
             goodInList.render(i, this.container, this.goodsBase);
-            this._valueUp(i);
-            this._valueDown(i);
+            this.valueUp(i);
+            this.valueDown(i);
         });
     };
     /** TODO: переместить кнопки количества в класс товара, т.к. эт по факту кнопки товара, а не каталога */
-    _valueUp(i) {
+    valueUp(i) {
         let cat = document.querySelector(`#plus${this.goodsBase[i].name_eng}`);
         cat.addEventListener('click', () => {
             if (basket.goodsInBasket.includes(this.goodsBase[i])) {
@@ -126,10 +126,10 @@ class CatalogList {
                 let basketItemIndex = basket.goodsInBasket.indexOf(this.goodsBase[i]);
                 basket.goodsInBasket[basketItemIndex].value = 1;
             };
-            basket._reloadBasket();
+            basket.reloadBasket();
         })
     };
-    _valueDown(i) {
+    valueDown(i) {
         let cat = document.querySelector(`#minus${this.goodsBase[i].name_eng}`);
         cat.addEventListener('click', () => {
             if (basket.goodsInBasket.includes(this.goodsBase[i])) {
@@ -140,7 +140,7 @@ class CatalogList {
                 if (basket.goodsInBasket[basketItemIndex].value === 0) {
                     basket.goodsInBasket.splice(basketItemIndex, 1);
                 }
-                basket._reloadBasket();
+                basket.reloadBasket();
             };
         });
     };
@@ -179,7 +179,7 @@ class CatalogList {
                 price: 45,
                 src: `src="./img/peach_sonata.jpg"`,
             },
-        ]
+        ];
     };
 }
 
@@ -195,15 +195,15 @@ class BasketList {
             this.goodsInBasket.forEach((item, i) => {
                 const goodInList = new BasketItem(item.name, item.name_eng, item.type, item.sort, item.price, item.value, item.src);
                 goodInList.render(i, this.container, this.goodsInBasket);
-                goodInList.delBasketPosition(i);
+                goodInList.btnDeleteBasketPosition(i);
             })
         }
     };
-    _dropBasket() {
+    dropBasket() {
         this.goodsInBasket.splice(0);
-        this._reloadBasket();
+        this.reloadBasket();
     };
-    _reloadBasket() {
+    reloadBasket() {
         this.clearBasket();
         this.init(this.container);
         totalInfoInstance.init(this.goodsInBasket, this.container);
@@ -227,7 +227,7 @@ class TotalInfo {
             total.insertAdjacentHTML('afterbegin', `<span class="empty-cart-message">Ваша корзина пуста.</span>`);
         } else {
             this.render(sourceArray);
-            this._dropBasket();
+            this.dropBasket();
         }
     };
     render(sourceArray) {
@@ -242,11 +242,11 @@ class TotalInfo {
             </div>
             <a href="#" class="button basket__drop-button" id="idDropBasketButton">X</a>`);
     };
-    _dropBasket() {
+    dropBasket() {
         let dropButton = document.querySelector('#idDropBasketButton');
         dropButton.addEventListener('click', (event) => {
             event.preventDefault();
-            basket._dropBasket();
+            basket.dropBasket();
         })
     };
     countWeight() {
