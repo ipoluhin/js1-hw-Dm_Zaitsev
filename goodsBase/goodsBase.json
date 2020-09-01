@@ -1,0 +1,34 @@
+[
+    {
+        "name": "Яблоки",
+        "name_eng": "Apple",
+        "type": "product",
+        "sort": "'Антоновка'",
+        "price": "34",
+        "src": "src='./img/apple_antonovka.jpg'"
+    },
+    {
+        "name": "Груша",
+        "name_eng": "Pear",
+        "type": "product",
+        "sort": "'Антоновка'",
+        "price": "40",
+        "src": "src='./img/pear_mramornaya.jpg'"
+    },
+    {
+        "name": "Слива",
+        "name_eng": "Plum",
+        "type": "product",
+        "sort": "'Черная'",
+        "price": "37",
+        "src": "src='./img/plum_black.webp'"
+    },
+    {
+        "name": "Персик",
+        "name_eng": "Peach",
+        "type": "product",
+        "sort": "'Соната'",
+        "price": "45",
+        "src": "src='./img/peach_sonata.jpg'"
+    }
+]
