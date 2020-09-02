@@ -134,7 +134,7 @@ class CatalogList {
         this.init();
     };
     init() {/** fetch('https://github.com/ipoluhin/js1-hw-Dm_Zaitsev/blob/fbd5bb0abbdf96b9a2cefb7de144f4c19b2492a2/goodsBase/goodsBase.json') <- запрос блокируется политикой браузера CORS. Не понял, как разрешить запрос. */
-        fetch('./goodsBase/goodsBase.json') /** Запрос локального json с товарами блокируется, если json не на сервере*/
+        fetch('http://127.0.1.1/goodsBase/goodsBase.json') /** Запрос локального json с товарами блокируется, если json не на сервере*/
             .then(result => result.json())
             .then(data => {
                 this.render(data);
