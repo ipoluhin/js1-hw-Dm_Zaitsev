@@ -36,6 +36,38 @@ class CatalogItem extends Item {
         );
         return cat;
     };
+    valueUp(i, data) {
+        let cat = document.querySelector(`#plus${data[i].name_eng}`);
+        cat.addEventListener('click', () => {
+            if (basket.goodsInBasket.includes(data[i])) {
+                let basketItemIndex = basket.goodsInBasket.indexOf(data[i]);
+                if (!basket.goodsInBasket[basketItemIndex].value) {
+                    basket.goodsInBasket[basketItemIndex].value = 1;
+                }
+                basket.goodsInBasket[basketItemIndex].value++;
+            } else {
+                basket.goodsInBasket.push(data[i]);
+                let basketItemIndex = basket.goodsInBasket.indexOf(data[i]);
+                basket.goodsInBasket[basketItemIndex].value = 1;
+            };
+            basket.reloadBasket();
+        })
+    };
+    valueDown(i, data) {
+        let cat = document.querySelector(`#minus${data[i].name_eng}`);
+        cat.addEventListener('click', () => {
+            if (basket.goodsInBasket.includes(data[i])) {
+                let basketItemIndex = basket.goodsInBasket.indexOf(data[i]);
+                if (basket.goodsInBasket[basketItemIndex].value > 0) {
+                    basket.goodsInBasket[basketItemIndex].value--;
+                }
+                if (basket.goodsInBasket[basketItemIndex].value === 0) {
+                    basket.goodsInBasket.splice(basketItemIndex, 1);
+                }
+                basket.reloadBasket();
+            };
+        });
+    };
 };
 
 /* Класс Товар корзины */
@@ -99,87 +131,23 @@ class ContentBlock {
 class CatalogList {
     constructor(container = baseSettings.catalogContainer) {
         this.container = container;
-        this.goodsBase = [];
-        this._fetchGoods();
         this.init();
     };
-    init() {
-        this.goodsBase.forEach((item, i) => {
+    init() {/** fetch('https://github.com/ipoluhin/js1-hw-Dm_Zaitsev/blob/fbd5bb0abbdf96b9a2cefb7de144f4c19b2492a2/goodsBase/goodsBase.json') <- запрос блокируется политикой браузера CORS. Не понял, как разрешить запрос. */
+        fetch('./goodsBase/goodsBase.json') /** Запрос локального json с товарами блокируется, если json не на сервере*/
+            .then(result => result.json())
+            .then(data => {
+                this.render(data);
+            })
+            .catch(err => console.log(err));
+    };
+    render(data) {
+        data.forEach((item, i) => {
             const goodInList = new CatalogItem(item.name, item.name_eng, item.type, item.sort, item.price, item.src);
-            goodInList.render(i, this.container, this.goodsBase);
-            this.valueUp(i);
-            this.valueDown(i);
+            goodInList.render(i, this.container, data);
+            goodInList.valueUp(i, data);
+            goodInList.valueDown(i, data);
         });
-    };
-    /** TODO: переместить кнопки количества в класс товара, т.к. эт по факту кнопки товара, а не каталога */
-    valueUp(i) {
-        let cat = document.querySelector(`#plus${this.goodsBase[i].name_eng}`);
-        cat.addEventListener('click', () => {
-            if (basket.goodsInBasket.includes(this.goodsBase[i])) {
-                let basketItemIndex = basket.goodsInBasket.indexOf(this.goodsBase[i]);
-                if (!basket.goodsInBasket[basketItemIndex].value) {
-                    basket.goodsInBasket[basketItemIndex].value = 1;
-                }
-                basket.goodsInBasket[basketItemIndex].value++;
-            } else {
-                basket.goodsInBasket.push(this.goodsBase[i]);
-                let basketItemIndex = basket.goodsInBasket.indexOf(this.goodsBase[i]);
-                basket.goodsInBasket[basketItemIndex].value = 1;
-            };
-            basket.reloadBasket();
-        })
-    };
-    valueDown(i) {
-        let cat = document.querySelector(`#minus${this.goodsBase[i].name_eng}`);
-        cat.addEventListener('click', () => {
-            if (basket.goodsInBasket.includes(this.goodsBase[i])) {
-                let basketItemIndex = basket.goodsInBasket.indexOf(this.goodsBase[i]);
-                if (basket.goodsInBasket[basketItemIndex].value > 0) {
-                    basket.goodsInBasket[basketItemIndex].value--;
-                }
-                if (basket.goodsInBasket[basketItemIndex].value === 0) {
-                    basket.goodsInBasket.splice(basketItemIndex, 1);
-                }
-                basket.reloadBasket();
-            };
-        });
-    };
-    /** */
-    _fetchGoods() {
-        this.goodsBase = [
-            {
-                name: 'Яблоки',
-                name_eng: 'Apple',
-                type: 'product',
-                sort: '"Антоновка"',
-                price: 34,
-                src: `src="./img/apple_antonovka.jpg"`,
-            },
-            {
-                name: 'Груша',
-                name_eng: 'Pear',
-                type: 'product',
-                sort: '"Мраморная"',
-                price: 40,
-                src: `src="./img/pear_mramornaya.jpg"`,
-            },
-            {
-                name: 'Слива',
-                name_eng: 'Plum',
-                type: 'product',
-                sort: '"Черная"',
-                price: 37,
-                src: `src="./img/plum_black.webp"`,
-            },
-            {
-                name: 'Персик',
-                name_eng: 'Peach',
-                type: 'product',
-                sort: '"Соната"',
-                price: 45,
-                src: `src="./img/peach_sonata.jpg"`,
-            },
-        ];
     };
 }
 
