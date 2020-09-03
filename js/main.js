@@ -76,8 +76,8 @@ class BasketItem extends Item {
         super(name, name_eng, type, sort, price, src);
     };
     render(i, container, source) {
-        let bas = document.querySelector(container);
-        bas.insertAdjacentHTML('beforeend',
+        let basket = document.querySelector(container);
+        basket.insertAdjacentHTML('beforeend',
             `<div class="good basket__good" id="basket__good">
             <img ${source[i].src} alt="image" class="pruduct-img" width="50" height="37">
             <p class = "good__description">${source[i].name} -- сорт '${source[i].sort}'
@@ -86,7 +86,7 @@ class BasketItem extends Item {
             <button class="button good__button-delete" id="delPos${source[i].name_eng}">Удалить</button>
         </div>`
         );
-        return bas;
+        return basket;
     };
     btnDeleteBasketPosition(i) {
         let deleteButton = document.querySelector(`#delPos${basket.goodsInBasket[i].name_eng}`);
@@ -129,12 +129,13 @@ class ContentBlock {
 }
 /** Класс Каталога */
 class CatalogList {
-    constructor(container = baseSettings.catalogContainer) {
+    constructor(container = baseSettings.catalogContainer, api = 'https://raw.githubusercontent.com/ipoluhin/js1-hw-Dm_Zaitsev/fbd5bb0abbdf96b9a2cefb7de144f4c19b2492a2/') {
         this.container = container;
+        this.API = api;
         this.init();
     };
-    init() {/** fetch('https://github.com/ipoluhin/js1-hw-Dm_Zaitsev/blob/fbd5bb0abbdf96b9a2cefb7de144f4c19b2492a2/goodsBase/goodsBase.json') <- запрос блокируется политикой браузера CORS. Не понял, как разрешить запрос. */
-        fetch('http://127.0.1.1/goodsBase/goodsBase.json') /** Запрос локального json с товарами блокируется, если json не на сервере*/
+    init() {
+        fetch(`${this.API}goodsBase/goodsBase.json`)
             .then(result => result.json())
             .then(data => {
                 this.render(data);
