@@ -129,13 +129,13 @@ class ContentBlock {
 }
 /** Класс Каталога */
 class CatalogList {
-    constructor(container = baseSettings.catalogContainer, api = 'https://raw.githubusercontent.com/ipoluhin/js1-hw-Dm_Zaitsev/fbd5bb0abbdf96b9a2cefb7de144f4c19b2492a2/') {
+    constructor(container = baseSettings.catalogContainer, api = 'https://raw.githubusercontent.com/ipoluhin/js1-hw-Dm_Zaitsev/fbd5bb0abbdf96b9a2cefb7de144f4c19b2492a2/goodsBase/') {
         this.container = container;
         this.API = api;
         this.init();
     };
     init() {
-        fetch(`${this.API}goodsBase/goodsBase.json`)
+        fetch(`${this.API}goodsBase.json`)
             .then(result => result.json())
             .then(data => {
                 this.render(data);
