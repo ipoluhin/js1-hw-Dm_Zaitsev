@@ -139,7 +139,7 @@ class CatalogList {
         fetch(`${this.API}goodsBase.json`)
             .then(result => result.json())
             .then(data => {
-                this.goodsBase = data;
+                this.goodsBase = [...data];
                 this.render(this.goodsBase);
             })
             .catch(err => console.log(err));
