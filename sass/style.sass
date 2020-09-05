@@ -1,0 +1,210 @@
+body
+    margin: 0
+p
+    margin: 0
+
+.header
+    margin: 0 auto
+    width: 700px
+    height: 110px
+    display: flex
+    flex-direction: row
+    justify-content: space-between
+    background-color: #7d5c5c
+    color: #CCC
+    text-align: left
+    box-sizing: border-box
+    border: 1px solid #cccccc
+    border-radius: 0 0 8px 0
+    box-shadow: 1px 1px 1px #ccc
+    padding: 20px
+    .logo
+        width: 43%
+        height: 100%
+        box-sizing: border-box
+        border-right: 1px solid #ccc
+        display: flex
+        flex-flow: column
+        justify-content: center
+        align-items: center
+        .example::after
+            content: ""
+            clear: both
+            display: table
+        .example
+            display: flex
+            box-sizing: border-box
+            margin: auto
+            max-width: 300px
+            .form__input
+                padding: 0 10px
+                font-size: 10px
+                border: 1px solid #e9f3ed
+                width: 80%
+                background: #f1f1f1
+                border-radius: 20px 0 0 20px
+            .form__button
+                width: 20%
+                background: #7d5c5c
+                color: white
+                border: 1px solid #e9f3ed
+                border-radius: 0 20px 20px 0
+                border-left: none
+                outline: none
+            .form__button:hover
+                background: #7d5c5c
+                //border: 1px solid #e9f3ed
+                //box-shadow: 1px 1px 1px #e9f3ed
+                border-left: none
+                box-sizing: border-box
+        .shop-name
+            font-size: 24px
+            font-family: Arial, Helvetica, sans-serif
+            font-weight: 400
+            text-align: center
+    .total
+        display: flex
+        justify-content: center
+        align-items: center
+        width: 50%
+        position: relative
+        margin: 0 20px 0 0
+        .total-info,
+            display: flex
+            justify-content: space-between
+            flex-flow: row
+            color: #e9f3ed
+        .in-cart
+            margin: 0 80px 0 0
+        .result-info
+            display: flex
+            flex-flow: column
+            .value,
+            .total-weight
+                margin: 0 0 5px 0
+        .empty-cart-message
+            display: flex
+            flex-direction: row
+            justify-content: center
+            margin: 5px 0
+            text-align: center
+            color: #e9f3ed
+        .basket__drop-button
+            bottom: 23px
+            right: -15px
+            height: 25px
+            width: 25px
+            display: flex
+            justify-content: center
+            align-items: center
+            text-align: center
+            text-decoration: none
+            background-color: #fa7575
+            color: #cccccc
+            box-sizing: border-box
+            border: 0.5px solid #cccccc
+            border-radius: 50%
+            position: absolute
+            &:hover
+                box-shadow: 1px 1px 1px #cccccc
+            &:active
+                box-shadow: 2px 2px 3px #cccccc, 1px 1px 1px #cccccc inset
+.content
+    margin: 0 auto
+    max-width: 700px
+    display: flex
+    flex-direction: row
+    justify-content: space-around
+    background-color: #919a9a
+    box-sizing: border-box
+    border: 1px solid #cccccc
+    border-radius: 0 8px 8px 0
+    box-shadow: 1px 1px 1px #cccccc
+    .catalog
+        width: 40%
+        flex-flow: row wrap
+        justify-content: center
+        background-color: #d8ded9
+        margin: 0 0 0 0
+        padding: 20px
+        .catalog__product
+            display: flex
+            flex-flow: column
+            width: 200px
+            height: 100px
+            box-sizing: border-box
+            border: 1px solid #ccc
+            border-radius: 5px
+            box-shadow: 1px 1px 1px #cccccc
+            padding: 10px
+            background-color: cornsilk
+            margin: 5px
+            &:hover
+                box-shadow: 2px 2px 2px #bebcbc
+            .product-cart
+                display: flex
+                flex-flow: row
+                justify-content: space-around
+                margin: 0 0 15px 0
+                .description
+                    display: flex
+                    flex-flow: column
+                    .product-name
+                        margin: 0 0 5px 0
+                    .pruduct-img
+                        width: 50%
+                        margin: 0 0 15px 0
+                .button-block
+                    display: flex
+                    flex-flow: row
+                    justify-content: space-around
+                    height: 50%
+                    .button
+                        box-sizing: border-box
+                        border: 1px solid #cccccc
+                        border-radius: 3px
+                        padding: 5px
+                        .product__button
+                            margin: 3px
+
+    .basket
+        /** background-image: url('../img/bg_basket.webp') **/
+        background-color: #fff
+        background-size: cover
+        width: 60%
+        box-sizing: border-box
+        border: 1px solid #ccc
+        border-radius: 0 8px 8px 0
+        display: flex
+        flex-direction: column
+        justify-content: start
+        align-items: center
+        padding: 10px 10px 0 10px
+        .cart-header
+            text-align: center
+        .good
+            box-sizing: border-box
+            border: 1px solid #ccc
+            border-radius: 5px
+            box-shadow: 1px 1px 1px #db9898
+            font-size: 14px
+            line-height: 14px
+            padding: 5px 5px 5px 5px
+            margin: 0 0 5px 0
+            background-color: #fbfbfb
+            &:hover
+                box-shadow: 2px 2px 2px #bebcbc
+            .basket__good
+                display: flex
+                justify-content: start
+                .good__description
+                    border: 1px solid red
+                    background-color: #9e1a1a
+                .button
+                    .good__button-delete
+                        width: 30px
+                        margin: -14px 0 0 0
+            .basket-footer
+                display: flex
+                flex-flow: column
+                height: 100%
