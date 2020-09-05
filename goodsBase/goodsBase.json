@@ -11,7 +11,7 @@
         "name": "Груша",
         "name_eng": "Pear",
         "type": "product",
-        "sort": "'Антоновка'",
+        "sort": "'Мраморная'",
         "price": "40",
         "src": "src='./img/pear_mramornaya.jpg'"
     },

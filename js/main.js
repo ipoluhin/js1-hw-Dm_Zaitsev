@@ -101,7 +101,7 @@ class BasketItem extends Item {
 class ContentBlock {
     constructor(container = 'body') {
         this.container = container;
-        this.searcheBlockContainer = '.logo';
+        this.searchBlockContainer = '.logo';
         this.catalogContainer = '#idCatalog';
         this.basketContainer = '#idBasket';
         this.totalContaimer = '#total';
@@ -130,7 +130,7 @@ class ContentBlock {
     };
 }
 
-/**Управляющий класс для межклассового взаимодействия*/
+/**Класс-посредник для межклассового взаимодействия*/
 class ControlBlock {
     renderCatalog(data) {
         catalog.render(data);
@@ -147,16 +147,17 @@ class ControlBlock {
 }
 
 /**Поиск по каталогу */
-class SearcheBlock {
-    constructor(container = baseSettings.searcheBlockContainer) {
+class searchBlock {
+    constructor(container = baseSettings.searchBlockContainer) {
         this.container = container;
         this.filtered = [];
         this.render();
         this.init();
     }
     init() {
-        let searcheButton = document.querySelector('.form__button');
-        searcheButton.addEventListener('click', () => {
+        let searchButton = document.querySelector('.form__button');
+        searchButton.addEventListener('click', (event) => {
+            event.preventDefault();
             let string = document.querySelector('.form__input').value;
             this.filter(string);
         })
@@ -171,14 +172,22 @@ class SearcheBlock {
     };
     filter(value) {
         const regex = new RegExp(value, 'i');
-        this.filtered = catalog.goodsBase.filter((product => regex.test(product.name)) || (product => regex.test(product.sort)));
+        this.filtered = catalog.goodsBase.filter(product => {
+            if (regex.test(product.name) || regex.test((product.sort).replace("\'[А-Яа-яёЁ]+\'", "[А-Яа-яёЁ]+")))
+                return true;
+        }
+        );
         controlBlock.clearCatalog();
-        controlBlock.renderCatalog(this.filtered);
+        if (this.filtered.length !== 0) {
+            controlBlock.renderCatalog(this.filtered);
+        } else {
+            controlBlock.renderCatalog(catalog.goodsBase);
+        }
     };
 }
 /** Класс Каталога */
 class CatalogList {
-    constructor(container = baseSettings.catalogContainer, api = 'https://raw.githubusercontent.com/ipoluhin/js1-hw-Dm_Zaitsev/fbd5bb0abbdf96b9a2cefb7de144f4c19b2492a2/goodsBase/') {
+    constructor(container = baseSettings.catalogContainer, api = 'https://raw.githubusercontent.com/ipoluhin/js1-hw-Dm_Zaitsev/lesson_08/goodsBase/') {
         this.container = container;
         this.API = api;
         this.goodsBase = [];
@@ -191,7 +200,7 @@ class CatalogList {
                 this.goodsBase = [...data];
                 this.render(this.goodsBase);
             })
-            .catch(err => console.log(err));
+            .catch((err => console.log(err)));
     };
     render(data) {
         data.forEach((item, i) => {
@@ -285,6 +294,6 @@ const baseSettings = new ContentBlock();
 const catalog = new CatalogList();
 const basket = new BasketList();
 const totalInfoInstance = new TotalInfo();
-const searcheInput = new SearcheBlock();
+const searcheInput = new searchBlock();
 const controlBlock = new ControlBlock();
 
