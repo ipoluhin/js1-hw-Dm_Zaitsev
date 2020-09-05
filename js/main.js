@@ -101,20 +101,22 @@ class BasketItem extends Item {
 class ContentBlock {
     constructor(container = 'body') {
         this.container = container;
+        this.searcheBlockContainer = '.logo';
         this.catalogContainer = '#idCatalog';
         this.basketContainer = '#idBasket';
         this.totalContaimer = '#total';
-        this.render('idCatalog', 'idBasket', 'total');
+        this.render('idCatalog', 'idBasket', 'total', 'logo');
     };
-    render(idCatalog, idBasket, total) {
+    render(idCatalog, idBasket, total, logo) {
         let header = document.querySelector(this.container);
         header.insertAdjacentHTML('afterbegin',
             `<header class="header">
-			<section class="logo">
-				<p class="shop-name">Продукты</p>
-			</section>
-			<section class="total" id="${total}"><!-- Общая информация о корзине --></section>
-		</header>`);
+			    <section class="${logo}">
+                    <p class="shop-name">Продукты</p>
+                    <!-- Поиск по каталогу -->                   
+			    </section>
+			    <section class="total" id="${total}"><!-- Общая информация о корзине --></section>
+		    </header>`);
         let content = document.querySelector(this.container);
         content.insertAdjacentHTML('beforeend',
             `<section class="content" id="idContent">
@@ -125,6 +127,53 @@ class ContentBlock {
 				<!-- Выбранные товары -->
             </div>
             </section>`);
+    };
+}
+
+/**Управляющий класс для межклассового взаимодействия*/
+class ControlBlock {
+    renderCatalog(data) {
+        catalog.render(data);
+    };
+    clearCatalog() {
+        catalog.clearCatalog();
+    };
+    totalInfoInstanceInit(data, container) {
+        totalInfoInstance.init(data, container);
+    };
+    dropBasket() {
+        basket.dropBasket();
+    };
+}
+
+/**Поиск по каталогу */
+class SearcheBlock {
+    constructor(container = baseSettings.searcheBlockContainer) {
+        this.container = container;
+        this.filtered = [];
+        this.render();
+        this.init();
+    }
+    init() {
+        let searcheButton = document.querySelector('.form__button');
+        searcheButton.addEventListener('click', () => {
+            let string = document.querySelector('.form__input').value;
+            this.filter(string);
+        })
+    };
+    render() {
+        let searcheInput = document.querySelector(this.container);
+        searcheInput.insertAdjacentHTML('beforeend',
+            `<form class="example" action="#">
+                <input type="text" placeholder="Поиск..." name="search" class="form__input">
+                <button type="submit" class="form__button"><i class="fa fa-search"></i></button>
+            </form>`)
+    };
+    filter(value) {
+        const regex = new RegExp(value, 'i');
+        this.filtered = catalog.goodsBase.filter((product => regex.test(product.name)) || (product => regex.test(product.sort)));
+        controlBlock.clearCatalog();
+        controlBlock.renderCatalog(this.filtered);
     };
 }
 /** Класс Каталога */
@@ -152,6 +201,10 @@ class CatalogList {
             goodInList.valueDown(i, data);
         });
     };
+    clearCatalog() {
+        let catalog = document.querySelector(this.container);
+        catalog.innerHTML = '';
+    };
 }
 
 /** Класс Корзины */
@@ -177,7 +230,7 @@ class BasketList {
     reloadBasket() {
         this.clearBasket();
         this.init(this.container);
-        totalInfoInstance.init(this.goodsInBasket, this.container);
+        controlBlock.totalInfoInstanceInit(this.goodsInBasket, this.container);
     };
     clearBasket() {
         let el = document.querySelector(this.container);
@@ -217,7 +270,7 @@ class TotalInfo {
         let dropButton = document.querySelector('#idDropBasketButton');
         dropButton.addEventListener('click', (event) => {
             event.preventDefault();
-            basket.dropBasket();
+            controlBlock.dropBasket();
         })
     };
     countWeight() {
@@ -232,5 +285,6 @@ const baseSettings = new ContentBlock();
 const catalog = new CatalogList();
 const basket = new BasketList();
 const totalInfoInstance = new TotalInfo();
-
+const searcheInput = new SearcheBlock();
+const controlBlock = new ControlBlock();
 

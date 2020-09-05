@@ -29,8 +29,47 @@ p {
   box-sizing: border-box;
   border-right: 1px solid #ccc;
   display: flex;
+  flex-flow: column;
   justify-content: center;
   align-items: center;
+}
+
+.header .logo .example::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+.header .logo .example {
+  display: flex;
+  box-sizing: border-box;
+  margin: auto;
+  max-width: 300px;
+}
+
+.header .logo .example .form__input {
+  padding: 0 10px;
+  font-size: 10px;
+  border: 1px solid #e9f3ed;
+  width: 80%;
+  background: #f1f1f1;
+  border-radius: 20px 0 0 20px;
+}
+
+.header .logo .example .form__button {
+  width: 20%;
+  background: #7d5c5c;
+  color: white;
+  border: 1px solid #e9f3ed;
+  border-radius: 0 20px 20px 0;
+  border-left: none;
+  outline: none;
+}
+
+.header .logo .example .form__button:hover {
+  background: #7d5c5c;
+  border-left: none;
+  box-sizing: border-box;
 }
 
 .header .logo .shop-name {
@@ -38,7 +77,6 @@ p {
   font-family: Arial, Helvetica, sans-serif;
   font-weight: 400;
   text-align: center;
-  font-size: #e9f3ed;
 }
 
 .header .total {
